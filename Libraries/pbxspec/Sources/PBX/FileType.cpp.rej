@@ -1,0 +1,11 @@
+--- FileType.cpp	2021-02-21 09:02:51.822350819 +0200
++++ FileType.cpp.new	2021-02-21 09:20:43.634330824 +0200
+@@ -48,7 +48,7 @@
+     auto base = this->base();
+ 
+     _uti                                     = Inherit::Override(_uti, base->_uti);
+-    _extensions                              = _extensions; /* Explicitly not inherited. */
++//    _extensions                              = _extensions; /* Explicitly not inherited. */
+     _mimeTypes                               = Inherit::Combine(_mimeTypes, base->_mimeTypes);
+     _typeCodes                               = Inherit::Combine(_typeCodes, base->_typeCodes);
+     _filenamePatterns                        = Inherit::Combine(_filenamePatterns, base->_filenamePatterns);

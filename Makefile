@@ -26,6 +26,7 @@ install: all
 
 project:
 	mkdir -p $(project)
+	$(shell ./patch/apply.sh)
 	$(cmake) -B$(project) -H. -G Xcode $(cmake_flags)
 
 test: all

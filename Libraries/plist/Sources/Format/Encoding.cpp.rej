@@ -1,0 +1,20 @@
+--- Encoding.cpp	2021-02-21 09:15:18.067493630 +0200
++++ Encoding.cpp.new	2021-02-21 09:15:03.670000000 +0200
+@@ -70,8 +70,6 @@
+         case Encoding::UTF32LE:
+             return { 0xFF, 0xFE, 0x00, 0x00 };
+     }
+-
+-    abort();
+ }
+ 
+ enum class Endian {
+@@ -100,8 +98,6 @@
+         case Encoding::UTF16BE:
+             return Endian::Big;
+     }
+-
+-    abort();
+ }
+ 
+ template<typename T>
