@@ -378,20 +378,13 @@ processObject(Object const **object, uint32_t *refno, bool userProcess)
     Object const *newObject;
     Object const *origObject = *object;
 
-    /* Is this object already mapped? */
     auto mit = this->_mappings.find(origObject);
     if (mit != this->_mappings.end()) {
         newObject = mit->second;
     } else {
         newObject = origObject;
-
-        /* Process the object for mapping. */
         if (userProcess) {
             ObjectType type = newObject->type();
-            /*
-             * Cache mapping, but do so only if newObject is different
-             * than the origObject or origObject is not a container.
-             */
             if (newObject != origObject || (type != Array::Type() &&
                                             type != Dictionary::Type() &&
                                             type != Null::Type() &&
@@ -399,36 +392,23 @@ processObject(Object const **object, uint32_t *refno, bool userProcess)
                 this->_mappings.insert({ origObject, newObject });
             }
         } else {
-            /*
-             * The user callback can't handle this object, supposedly because
-             * we can.
-             */
+
         }
     }
 
     assert(newObject != NULL);
 
-    /* Is this new object already written? */
     auto it = this->_references.find(newObject);
     if (it != this->_references.end()) {
         *refno = it->second;
 
-        /*
-         * Yes, invalidate newObject so the caller knows that this is
-         * a reference.
-         */
         if (userProcess) {
             newObject = NULL;
         }
     } else {
-        /*
-         * No, add a new reference for this newObject.
-         */
         *refno = this->_references.size();
         this->_references.insert({ newObject, *refno });
     }
-
-    /* Return the new object to the user. */
     *object = newObject;
 
     return true;

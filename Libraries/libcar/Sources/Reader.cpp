@@ -77,7 +77,7 @@ facetFastIterate(std::function<void(void *key, size_t key_len, void *value, size
 void Reader::
 renditionIterate(std::function<void(Rendition const &)> const &iterator) const
 {
-    auto keyfmt = *_keyfmt;
+    const struct car_key_format* keyfmt = (struct car_key_format*)*_keyfmt;
     for (const auto &it : _renditionValues) {
         KeyValuePair kv = (KeyValuePair)it.second;
         car_rendition_key *rendition_key = (car_rendition_key *)kv.key;

@@ -97,13 +97,13 @@ write() const
         return;
     }
 
-    strncpy(header->magic, "RATC", 4);
+    memcpy(header->magic, "RATC", 4);
     header->ui_version = 0x131; // TODO
     header->storage_version = 0xC; // TODO
     header->storage_timestamp = static_cast<uint32_t>(time(NULL)); // TODO
     header->rendition_count = 0;
-    strncpy(header->file_creator, "asset catalog compiler\n", sizeof(header->file_creator));
-    strncpy(header->other_creator, "version 1.0", sizeof(header->other_creator));
+    memcpy(header->file_creator, "asset catalog compiler\n", sizeof(header->file_creator));
+    memcpy(header->other_creator, "version 1.0", sizeof(header->other_creator));
 
     std::random_device device;
     std::uniform_int_distribution<int> distribution = std::uniform_int_distribution<int>(std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max());
@@ -127,14 +127,14 @@ write() const
       std::vector<enum car_attribute_identifier> format = DetermineKeyFormat(_facets, _renditions);
       keyfmt_size = sizeof(struct car_key_format) + (format.size() * sizeof(uint32_t));
       keyfmt = (struct car_key_format *)malloc(keyfmt_size);
-      strncpy(keyfmt->magic, "tmfk", 4);
+      memcpy(keyfmt->magic, "tmfk", 4);
       keyfmt->reserved = 0;
       keyfmt->num_identifiers = format.size();
       for (size_t i = 0; i < format.size(); ++i) {
           keyfmt->identifier_list[i] = static_cast<uint32_t>(format[i]);
       }
     } else {
-      keyfmt = *_keyfmt;
+      keyfmt = (struct car_key_format *)*_keyfmt;
       keyfmt_size = sizeof(struct car_key_format) + (keyfmt->num_identifiers * sizeof(uint32_t));
     }
 

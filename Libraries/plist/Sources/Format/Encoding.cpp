@@ -10,7 +10,7 @@
 #include <plist/Format/unicode.h>
 
 #include <cassert>
-
+#include <stdlib.h>
 #if defined(__linux__)
 #include <endian.h>
 #endif
@@ -70,6 +70,7 @@ BOM(Encoding encoding)
         case Encoding::UTF32LE:
             return { 0xFF, 0xFE, 0x00, 0x00 };
     }
+    abort();
 }
 
 enum class Endian {
@@ -98,6 +99,7 @@ EncodingEndian(Encoding encoding)
         case Encoding::UTF16BE:
             return Endian::Big;
     }
+    abort();
 }
 
 template<typename T>
